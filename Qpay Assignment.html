@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xpentra Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #001F54;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #002F6C;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            padding: 10px 15px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: #003B91;
+            border-radius: 8px;
+        }
+
+        nav ul li ul {
+            position: absolute;
+            display: none;
+            top: 100%;
+            left: 0;
+            background-color: #003B91;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        nav ul li:hover ul {
+            display: block;
+        }
+
+        nav ul li ul li a {
+            display: block;
+            padding: 10px 15px;
+        }
+
+        .container {
+            display: flex;
+            padding: 20px;
+        }
+
+        .main {
+            flex: 3;
+            margin-right: 20px;
+        }
+
+        .sidebar {
+            flex: 1;
+            background-color: #003B91;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .card {
+            background-color: #0049c1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            margin: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .details p {
+            margin: 10px 0;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .actions div {
+            text-align: center;
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        .actions div:hover {
+            cursor: pointer;
+            background-color: #0050e0;
+            border-radius: 8px;
+            padding: 10px 0;
+        }
+
+        .actions div img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .summary {
+            background-color: #003B91;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .summary h3 {
+            margin: 0;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .summary .balance {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+        }
+
+        .user img {
+            margin-right: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .username {
+            font-size: 18px;
+        }
+
+        .welcome {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .entity-details {
+            background-color: #002F6C;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .entity-details h3 {
+            margin: 0;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .entity-details p {
+            margin: 10px 0;
+        }
+
+        .balance-summary {
+            background-color: #002F6C;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .balance-summary h3 {
+            margin: 0;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .balance-summary .balance {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .balance-summary .balance p {
+            margin: 0;
+        }
+
+        .balance-summary .balance .refresh-icon {
+            background-color: #003B91;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .balance-summary .balance .refresh-icon:hover {
+            background-color: #0049c1;
+        }
+
+        .balance-summary .balance .account-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .balance-summary .balance .account-balance {
+            color: #00FF00;
+            font-weight: bold;
+        }
+
+        .balance-summary .balance .balance-time {
+            color: #AAAAAA;
+        }
+
+        .balance-summary .view-all {
+            display: inline-block;
+            margin-top: 10px;
+            color: #00FF00;
+            cursor: pointer;
+        }
+
+        .balance-summary .view-all:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Xpentra</div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li>
+                    <a href="#">Transactions</a>
+                    <ul>
+                        <li><a href="#">View All</a></li>
+                        <li><a href="#">Pay</a></li>
+                        <li><a href="#">Receive</a></li>
+                        <li><a href="#">Approve</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Accounts</a>
+                    <ul>
+                        <li><a href="#">View All</a></li>
+                        <li><a href="#">Create</a></li>
+                        <li><a href="#">Approve</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div class="user">
+            <img src="Kumar Ketak Photo.jpeg" alt="User Icon">
+            <span class="username">Kumar Ketak</span>
+        </div>
+    </header>
+    <div class="container">
+        <div class="main">
+            <div class="welcome">Welcome back, Kumar Ketak</div>
+            <div class="card">
+                <h2>Transactions</h2>
+                <div class="details">
+                    <p><strong>3,46,76,434</strong> Beneficiary transactions</p>
+                    <p><strong>694</strong> Internal transactions</p>
+                </div>
+                <div class="actions">
+                    <div>
+                        <img src="th.jpg" alt="Pay Icon">
+                        <p>Pay</p>
+                    </div>
+                    <div>
+                        <img src="th (1).jpg" alt="Receive Icon">
+                        <p>Receive</p>
+                    </div>
+                    <div>
+                        <img src="th (2).jpg" alt="Approve Icon">
+                        <p>Approve</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Beneficiary Accounts</h2>
+                <div class="details">
+                    <p><strong>303</strong> Pending accounts</p>
+                    <p><strong>03</strong> Approved accounts</p>
+                </div>
+                <div class="actions">
+                    <div>
+                        <img src="th (3).jpg" alt="Create Icon">
+                        <p>Create</p>
+                    </div>
+                    <div>
+                        <img src="th (2).jpg" alt="Approve Icon">
+                        <p>Approve</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="entity-details">
+                <h3>Entity Details</h3>
+                <p>Q2pay Technologies Pvt. Ltd.</p>
+                <p>Entity name</p>
+                <p><strong>₹ 120.89 Cr</strong> in <strong>456</strong> accounts</p>
+                <p>Total balance - updated 5 hrs ago</p>
+            </div>
+            <div class="balance-summary">
+                <h3>Balances Summary</h3>
+                <div class="balance">
+                    <div class="account-details">
+                        <p>7834 **** 0892</p>
+                        <p class="balance-time">Balance - 25 mins ago</p>
+                    </div>
+                    <p class="account-balance">₹ 12,22,000.00</p>
+                    <div class="refresh-icon">🔄</div>
+                </div>
+                <div class="balance">
+                    <div class="account-details">
+                        <p>7834 **** 0892</p>
+                        <p class="balance-time">Balance - 25 mins ago</p>
+                    </div>
+                    <p class="account-balance">₹ 12,22,000.00</p>
+                    <div class="refresh-icon">🔄</div>
+                </div>
+                <div class="balance">
+                    <div class="account-details">
+                        <p>7834 **** 0892</p>
+                        <p class="balance-time">Balance - 25 mins ago</p>
+                    </div>
+                    <p class="account-balance">₹ 12,22,000.00</p>
+                    <div class="refresh-icon">🔄</div>
+                </div>
+                <div class="balance">
+                    <div class="account-details">
+                        <p>7834 **** 0892</p>
+                        <p class="balance-time">Balance - 25 mins ago</p>
+                    </div>
+                    <p class="account-balance">₹ 12,22,000.00</p>
+                    <div class="refresh-icon">🔄</div>
+                </div>
+                <div class="balance">
+                    <div class="account-details">
+                        <p>7834 **** 0892</p>
+                        <p class="balance-time">Balance - 25 mins ago</p>
+                    </div>
+                    <p class="account-balance">₹ 12,22,000.00</p>
+                    <div class="refresh-icon">🔄</div>
+                </div>
+                <div class="balance">
+                    <div class="account-details">
+                        <p>7834 **** 0892</p>
+                        <p class="balance-time">Balance - 25 mins ago</p>
+                    </div>
+                    <p class="account-balance">₹ 12,22,000.00</p>
+                    <div class="refresh-icon">🔄</div>
+                </div>
+                <div class="view-all">View All</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
